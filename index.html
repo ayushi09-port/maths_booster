@@ -29,7 +29,7 @@
         .rotate-y-180 {
             transform: rotateY(180deg);
         }
-        /* Custom Scrollbar for Grid Containers */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -60,25 +60,25 @@
                     <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
                         SSC CGL Math Booster
                     </h1>
-                    <p class="text-xs text-slate-400">Master Tables, Squares & Cubes with Spaced Recall</p>
+                    <p class="text-xs text-slate-400">Master Tables, Squares & Cubes with Speed Drills</p>
                 </div>
             </div>
 
-            <!-- Stats Bar -->
-            <div class="flex items-center gap-4 bg-slate-800/80 border border-slate-700/60 px-4 py-2 rounded-xl text-xs sm:text-sm">
+            <!-- Stats & Streak Bar -->
+            <div class="flex items-center gap-3 sm:gap-4 bg-slate-800/80 border border-slate-700/60 px-4 py-2 rounded-xl text-xs sm:text-sm">
                 <div class="text-center">
                     <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Mastered</span>
                     <span id="stat-mastered" class="font-bold text-emerald-400">0</span>
                 </div>
                 <div class="w-px h-6 bg-slate-700"></div>
                 <div class="text-center">
-                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Needs Review</span>
-                    <span id="stat-review" class="font-bold text-amber-400">0</span>
+                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Speed (CPM)</span>
+                    <span id="stat-cpm" class="font-bold text-cyan-400">0</span>
                 </div>
                 <div class="w-px h-6 bg-slate-700"></div>
                 <div class="text-center">
-                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Streak</span>
-                    <span id="stat-streak" class="font-bold text-indigo-400">1 Day 🔥</span>
+                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Daily Streak</span>
+                    <span id="stat-streak" class="font-bold text-amber-400">1 Day 🔥</span>
                 </div>
             </div>
         </div>
@@ -89,21 +89,20 @@
         
         <!-- Navigation Tabs -->
         <div class="flex flex-wrap items-center justify-center gap-2 mb-6 bg-slate-800/40 p-1.5 rounded-2xl border border-slate-800 backdrop-blur-sm max-w-fit mx-auto">
-            <button onclick="switchTab('tables')" id="nav-tables" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
-                <i class="fa-solid fa-table-cells"></i> Tables (1-30)
+            <button onclick="switchTab('tables')" id="nav-tables" class="nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                <i class="fa-solid fa-table-cells"></i> Tables
             </button>
-            <button onclick="switchTab('squares')" id="nav-squares" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-square-root-variable"></i> Squares (1-30)
+            <button onclick="switchTab('squares')" id="nav-squares" class="nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-square-root-variable"></i> Squares
             </button>
-            <button onclick="switchTab('cubes')" id="nav-cubes" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-cube"></i> Cubes (1-30)
+            <button onclick="switchTab('cubes')" id="nav-cubes" class="nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-cube"></i> Cubes
             </button>
-            <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800 relative">
-                <i class="fa-solid fa-bolt text-amber-400"></i> Flashcard Quiz Mode
-                <span class="flex h-2 w-2 relative">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                </span>
+            <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-bolt text-amber-400"></i> Speed Drill Quiz
+            </button>
+            <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-chart-line text-emerald-400"></i> Scoreboard
             </button>
         </div>
 
@@ -111,21 +110,18 @@
         <section id="section-tables" class="tab-section space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
                 <div>
-                    <h2 class="text-lg font-bold text-indigo-300">Multiplication Tables Reference</h2>
+                    <h2 class="text-lg font-bold text-indigo-300">Multiplication Tables Reference (1 to 30)</h2>
                     <p class="text-xs text-slate-400">Select a number to view or toggle hide mode for active recall practice.</p>
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto">
                     <button onclick="toggleGlobalHide('tables')" id="btn-toggle-hide-tables" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
-                        <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                        <i class="fa-solid fa-eye-slash"></i> Hide All
                     </button>
                     <select id="tableSelect" onchange="renderTable()" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-indigo-300 font-semibold focus:outline-none focus:border-indigo-500 w-full sm:w-auto cursor-pointer">
-                        <!-- Populated by JS -->
                     </select>
                 </div>
             </div>
-            <div id="tableGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-                <!-- Dynamically populated -->
-            </div>
+            <div id="tableGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3"></div>
         </section>
 
         <!-- SECTION: SQUARES -->
@@ -136,12 +132,10 @@
                     <p class="text-xs text-slate-400">Click any card to reveal its value or test your quick recall.</p>
                 </div>
                 <button onclick="toggleGlobalHide('squares')" id="btn-toggle-hide-squares" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
-                    <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                    <i class="fa-solid fa-eye-slash"></i> Hide All
                 </button>
             </div>
-            <div id="squaresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
-                <!-- Dynamically populated -->
-            </div>
+            <div id="squaresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3"></div>
         </section>
 
         <!-- SECTION: CUBES -->
@@ -149,41 +143,58 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
                 <div>
                     <h2 class="text-lg font-bold text-indigo-300">Cubes (1 to 30)</h2>
-                    <p class="text-xs text-slate-400">Crucial for Compound Interest and volume calculations in Mensuration.</p>
+                    <p class="text-xs text-slate-400">Essential for Compound Interest and Mensuration volume shortcuts.</p>
                 </div>
                 <button onclick="toggleGlobalHide('cubes')" id="btn-toggle-hide-cubes" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
-                    <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                    <i class="fa-solid fa-eye-slash"></i> Hide All
                 </button>
             </div>
-            <div id="cubesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
-                <!-- Dynamically populated -->
-            </div>
+            <div id="cubesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3"></div>
         </section>
 
-        <!-- SECTION: FLASHCARD QUIZ MODE -->
+        <!-- SECTION: FLASHCARD SPEED DRILL & TIMER MODE -->
         <section id="section-quiz" class="tab-section hidden space-y-6">
-            <!-- Quiz Filter & Controls Header -->
-            <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
-                <div>
-                    <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
-                        <i class="fa-solid fa-fire"></i> Interactive Flashcard Drill
-                    </h2>
-                    <p class="text-xs text-slate-400">Active recall mode with spaced repetition self-assessment.</p>
+            
+            <!-- Timer Controls & Filter Bar -->
+            <div class="bg-slate-800/80 p-4 sm:p-5 rounded-2xl border border-slate-700/80 flex flex-col lg:flex-row items-center justify-between gap-4 shadow-xl">
+                
+                <!-- Speed Timer Control Widget -->
+                <div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start bg-slate-900/80 p-2.5 px-4 rounded-xl border border-slate-700">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-stopwatch text-amber-400 text-lg"></i>
+                        <span id="timer-display" class="font-mono text-xl font-extrabold text-amber-400 tracking-wider">02:00</span>
+                    </div>
+
+                    <!-- Preset Duration Selector -->
+                    <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-lg border border-slate-700">
+                        <button onclick="setTimerDuration(120)" id="tbtn-120" class="timer-preset-btn text-[11px] font-bold px-2.5 py-1 rounded-md bg-amber-500 text-slate-950">2m</button>
+                        <button onclick="setTimerDuration(300)" id="tbtn-300" class="timer-preset-btn text-[11px] font-bold px-2.5 py-1 rounded-md text-slate-400 hover:text-white">5m</button>
+                        <button onclick="setTimerDuration(600)" id="tbtn-600" class="timer-preset-btn text-[11px] font-bold px-2.5 py-1 rounded-md text-slate-400 hover:text-white">10m</button>
+                    </div>
+
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="toggleTimer()" id="btn-timer-start" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-lg transition flex items-center gap-1">
+                            <i class="fa-solid fa-play"></i> Start
+                        </button>
+                        <button onclick="resetTimer()" class="px-2.5 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded-lg transition">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Quiz Category Filter -->
-                <div class="flex flex-wrap items-center gap-2">
+                <div class="flex flex-wrap items-center justify-center gap-2 w-full lg:w-auto">
                     <button onclick="setQuizCategory('all')" id="qcat-all" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">All Mixed</button>
-                    <button onclick="setQuizCategory('tables')" id="qcat-tables" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Tables Only</button>
-                    <button onclick="setQuizCategory('squares')" id="qcat-squares" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Squares Only</button>
-                    <button onclick="setQuizCategory('cubes')" id="qcat-cubes" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Cubes Only</button>
+                    <button onclick="setQuizCategory('tables')" id="qcat-tables" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Tables</button>
+                    <button onclick="setQuizCategory('squares')" id="qcat-squares" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Squares</button>
+                    <button onclick="setQuizCategory('cubes')" id="qcat-cubes" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Cubes</button>
                 </div>
             </div>
 
             <!-- Main Interactive Flashcard Container -->
-            <div class="flex flex-col items-center justify-center max-w-lg mx-auto py-4">
+            <div class="flex flex-col items-center justify-center max-w-lg mx-auto py-2">
                 
-                <!-- Progress Indicator -->
+                <!-- Progress & Live Drill Accuracy -->
                 <div class="w-full flex justify-between items-center text-xs text-slate-400 mb-2 px-2">
                     <span id="quiz-count">Card 1 of 50</span>
                     <span id="quiz-accuracy" class="text-indigo-400 font-semibold">Accuracy: 100%</span>
@@ -193,21 +204,21 @@
                 <div class="w-full h-64 perspective-1000 cursor-pointer group" onclick="flipQuizCard()">
                     <div id="quiz-card-inner" class="relative w-full h-full duration-500 transform-style-3d shadow-2xl rounded-3xl border border-slate-700/80 bg-slate-800">
                         
-                        <!-- Front of Card (Question) -->
+                        <!-- Front of Card -->
                         <div class="absolute inset-0 w-full h-full rounded-3xl backface-hidden bg-gradient-to-br from-slate-800 via-slate-800/90 to-slate-900 border border-slate-700 flex flex-col items-center justify-between p-6">
                             <span id="quiz-tag" class="text-[10px] font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-3 py-1 rounded-full border border-indigo-800/50 uppercase">TABLE DRILL</span>
                             
                             <div class="text-center my-auto">
                                 <div id="quiz-question" class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide">19 × 7</div>
                                 <p class="text-xs text-slate-400 mt-3 flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-rotate-left"></i> Click or press <kbd class="px-1.5 py-0.5 text-[10px] bg-slate-700 rounded text-slate-300 border border-slate-600">Space</kbd> to flip answer
+                                    <i class="fa-solid fa-rotate-left"></i> Tap or press <kbd class="px-1.5 py-0.5 text-[10px] bg-slate-700 rounded text-slate-300 border border-slate-600">Space</kbd> to flip
                                 </p>
                             </div>
 
                             <div class="text-[11px] text-slate-500">Card ID: <span id="quiz-card-id">#001</span></div>
                         </div>
 
-                        <!-- Back of Card (Answer) -->
+                        <!-- Back of Card -->
                         <div class="absolute inset-0 w-full h-full rounded-3xl backface-hidden rotate-y-180 bg-gradient-to-br from-slate-800 via-indigo-950/40 to-slate-900 border border-indigo-500/50 flex flex-col items-center justify-between p-6">
                             <span class="text-[10px] font-bold tracking-wider text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800/50 uppercase">ANSWER</span>
                             
@@ -218,7 +229,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-[11px] text-slate-400">Rate your recall strength below</div>
+                            <div class="text-[11px] text-slate-400">Rate your speed and recall strength</div>
                         </div>
 
                     </div>
@@ -227,18 +238,78 @@
                 <!-- Self-Assessment Rating Buttons -->
                 <div class="w-full grid grid-cols-2 gap-3 mt-6">
                     <button onclick="gradeQuizCard(false)" class="py-3.5 px-4 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-2xl font-semibold text-sm transition flex items-center justify-center gap-2 group">
-                        <i class="fa-solid fa-xmark text-rose-400 group-hover:scale-125 transition-transform"></i> Review Again
+                        <i class="fa-solid fa-xmark text-rose-400 group-hover:scale-125 transition-transform"></i> Needs Review (←)
                     </button>
                     <button onclick="gradeQuizCard(true)" class="py-3.5 px-4 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-2xl font-semibold text-sm transition flex items-center justify-center gap-2 group">
-                        <i class="fa-solid fa-check text-emerald-400 group-hover:scale-125 transition-transform"></i> Got It Cleanly!
+                        <i class="fa-solid fa-check text-emerald-400 group-hover:scale-125 transition-transform"></i> Got It Cleanly! (→)
                     </button>
                 </div>
 
-                <!-- Shortcut Legend -->
                 <p class="text-[11px] text-slate-500 mt-4 text-center">
-                    Keyboard Shortcuts: <kbd class="px-1 bg-slate-800 rounded">Space</kbd> Flip | <kbd class="px-1 bg-slate-800 rounded">←</kbd> Review | <kbd class="px-1 bg-slate-800 rounded">→</kbd> Got It
+                    Shortcuts: <kbd class="px-1 bg-slate-800 rounded">Space</kbd> Flip | <kbd class="px-1 bg-slate-800 rounded">←</kbd> Incorrect | <kbd class="px-1 bg-slate-800 rounded">→</kbd> Correct
                 </p>
 
+            </div>
+        </section>
+
+        <!-- SECTION: DAILY SCOREBOARD & ANALYTICS -->
+        <section id="section-analytics" class="tab-section hidden space-y-6">
+            <div class="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/60 shadow-xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-indigo-300 flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-amber-400"></i> Daily Performance Dashboard
+                        </h2>
+                        <p class="text-xs text-slate-400">Track your daily speed drills, total cards solved, and accuracy trends over time.</p>
+                    </div>
+                    <button onclick="clearAnalyticsHistory()" class="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl text-xs font-semibold transition">
+                        Reset Tracker Data
+                    </button>
+                </div>
+
+                <!-- Daily Summary Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 text-center">
+                        <span class="text-xs text-slate-400 block mb-1">Today's Solved</span>
+                        <span id="dash-today-solved" class="text-2xl font-extrabold text-indigo-400">0</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 text-center">
+                        <span class="text-xs text-slate-400 block mb-1">Overall Accuracy</span>
+                        <span id="dash-accuracy" class="text-2xl font-extrabold text-emerald-400">0%</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 text-center">
+                        <span class="text-xs text-slate-400 block mb-1">Speed Rate</span>
+                        <span id="dash-cpm" class="text-2xl font-extrabold text-cyan-400">0 CPM</span>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 text-center">
+                        <span class="text-xs text-slate-400 block mb-1">Current Streak</span>
+                        <span id="dash-streak" class="text-2xl font-extrabold text-amber-400">1 Day</span>
+                    </div>
+                </div>
+
+                <!-- Recent Drill Sessions Table -->
+                <div>
+                    <h3 class="text-sm font-bold text-slate-300 mb-3">Recent Speed Drill History</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/90 text-slate-400 border-b border-slate-700">
+                                    <th class="p-3">Date & Time</th>
+                                    <th class="p-3">Category</th>
+                                    <th class="p-3">Duration</th>
+                                    <th class="p-3">Cards (Right/Total)</th>
+                                    <th class="p-3">Accuracy</th>
+                                    <th class="p-3">Speed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body" class="divide-y divide-slate-800 text-slate-300">
+                                <tr>
+                                    <td colspan="6" class="p-4 text-center text-slate-500">No drill sessions logged yet today. Complete a timed quiz to record your scores!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -249,9 +320,8 @@
         SSC CGL Daily Math Booster • Practice 5 Minutes Every Morning
     </footer>
 
-    <!-- Audio Effects (Web Audio API Synthesizer) -->
+    <!-- Audio Effects Engine -->
     <script>
-        // Audio Synthesizer for visual/audio feedback without external assets
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         function playTone(freq, type = 'sine', duration = 0.15) {
@@ -269,26 +339,29 @@
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + duration);
-            } catch (e) {
-                // Ignore audio restriction errors
-            }
+            } catch (e) {}
         }
 
         function playSuccessSound() {
-            playTone(523.25, 'triangle', 0.1); // C5
-            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100); // E5
+            playTone(523.25, 'triangle', 0.1);
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
         }
 
         function playFailSound() {
-            playTone(220, 'sawtooth', 0.2); // A3
+            playTone(220, 'sawtooth', 0.2);
         }
 
         function playFlipSound() {
             playTone(400, 'sine', 0.05);
         }
+
+        function playTimerEndSound() {
+            playTone(587.33, 'square', 0.2); // D5
+            setTimeout(() => playTone(880, 'square', 0.4), 200); // A5
+        }
     </script>
 
-    <!-- Core Logic & Application State -->
+    <!-- Core Logic & Local Storage Application Engine -->
     <script>
         // State Management
         let currentTab = 'tables';
@@ -296,23 +369,35 @@
         let masteredSet = new Set(JSON.parse(localStorage.getItem('cgl_mastered') || '[]'));
         let reviewSet = new Set(JSON.parse(localStorage.getItem('cgl_review') || '[]'));
 
-        // Quiz State
+        // Quiz & Stats State
         let quizCategory = 'all';
         let quizDeck = [];
         let currentQuizIndex = 0;
         let isCardFlipped = false;
-        let quizStats = { correct: 0, total: 0 };
+        let sessionStats = { correct: 0, total: 0, startTime: null };
+        let drillHistory = JSON.parse(localStorage.getItem('cgl_drill_history') || '[]');
 
-        // Initialize App on DOM Ready
+        // Streak Tracker Logic
+        let streakData = JSON.parse(localStorage.getItem('cgl_streak') || '{"count": 1, "lastDate": ""}');
+
+        // Timer State
+        let timerDuration = 120; // Default 2 mins
+        let timerTimeLeft = 120;
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
+            checkAndMaintainStreak();
             populateTableDropdown();
             renderTable();
             renderSquares();
             renderCubes();
-            updateStatsUI();
             buildQuizDeck();
-            
-            // Setup Keyboard Shortcuts
+            updateStatsUI();
+            renderAnalyticsTable();
+
+            // Keyboard Navigation Shortcuts
             document.addEventListener('keydown', (e) => {
                 if (currentTab !== 'quiz') return;
                 if (e.code === 'Space') {
@@ -328,21 +413,109 @@
             });
         });
 
-        // Tab Switcher
+        // Tab Navigation
         function switchTab(tab) {
             currentTab = tab;
             document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.className = "nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800";
+                btn.className = "nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800";
             });
 
             document.getElementById(`section-${tab}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`nav-${tab}`);
-            activeBtn.className = "nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+            activeBtn.className = "nav-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
 
-            if (tab === 'quiz') {
-                resetQuizCardState();
+            if (tab === 'quiz') resetQuizCardState();
+            if (tab === 'analytics') renderAnalyticsTable();
+        }
+
+        // --- STREAK TRACKER ENGINE ---
+        function checkAndMaintainStreak() {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            if (streakData.lastDate === '') {
+                streakData.lastDate = todayStr;
+                streakData.count = 1;
+            } else if (streakData.lastDate !== todayStr) {
+                const lastDate = new Date(streakData.lastDate);
+                const currDate = new Date(todayStr);
+                const diffTime = Math.abs(currDate - lastDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 1) {
+                    streakData.count += 1;
+                    streakData.lastDate = todayStr;
+                } else if (diffDays > 1) {
+                    streakData.count = 1;
+                    streakData.lastDate = todayStr;
+                }
             }
+            localStorage.setItem('cgl_streak', JSON.stringify(streakData));
+            document.getElementById('stat-streak').innerText = `${streakData.count} Day${streakData.count > 1 ? 's' : ''} 🔥`;
+            document.getElementById('dash-streak').innerText = `${streakData.count} Day${streakData.count > 1 ? 's' : ''}`;
+        }
+
+        // --- TIMER ENGINE ---
+        function setTimerDuration(seconds) {
+            if (isTimerRunning) pauseTimer();
+            timerDuration = seconds;
+            timerTimeLeft = seconds;
+            updateTimerDisplay();
+
+            document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+                btn.className = "timer-preset-btn text-[11px] font-bold px-2.5 py-1 rounded-md text-slate-400 hover:text-white";
+            });
+            document.getElementById(`tbtn-${seconds}`).className = "timer-preset-btn text-[11px] font-bold px-2.5 py-1 rounded-md bg-amber-500 text-slate-950";
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerTimeLeft / 60);
+            const secs = timerTimeLeft % 60;
+            document.getElementById('timer-display').innerText = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            if (isTimerRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            if (timerTimeLeft <= 0) timerTimeLeft = timerDuration;
+            isTimerRunning = true;
+            if (!sessionStats.startTime) sessionStats.startTime = new Date();
+            
+            document.getElementById('btn-timer-start').innerHTML = `<i class="fa-solid fa-pause"></i> Pause`;
+            document.getElementById('btn-timer-start').className = "px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs rounded-lg transition flex items-center gap-1";
+
+            timerInterval = setInterval(() => {
+                timerTimeLeft--;
+                updateTimerDisplay();
+
+                if (timerTimeLeft <= 0) {
+                    pauseTimer();
+                    playTimerEndSound();
+                    logDrillSession();
+                    alert("⏰ Time's up! Great drill session! Check your scoreboard for performance metrics.");
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('btn-timer-start').innerHTML = `<i class="fa-solid fa-play"></i> Start`;
+            document.getElementById('btn-timer-start').className = "px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-lg transition flex items-center gap-1";
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerTimeLeft = timerDuration;
+            updateTimerDisplay();
+            sessionStats = { correct: 0, total: 0, startTime: null };
+            updateStatsUI();
         }
 
         // --- TABLES LOGIC ---
@@ -353,7 +526,7 @@
                 const opt = document.createElement('option');
                 opt.value = i;
                 opt.innerHTML = `Table of ${i}`;
-                if (i === 19) opt.selected = true; // Default to 19 (High yield for CGL)
+                if (i === 19) opt.selected = true;
                 select.appendChild(opt);
             }
         }
@@ -430,7 +603,6 @@
             }
         }
 
-        // Toggle visibility of individual answer
         function toggleSingleAnswer(elementId) {
             const el = document.getElementById(elementId);
             if (!el) return;
@@ -444,16 +616,15 @@
             }
         }
 
-        // Global Hide/Show All Toggle
         function toggleGlobalHide(section) {
             globalHideState[section] = !globalHideState[section];
             const btn = document.getElementById(`btn-toggle-hide-${section}`);
             
             if (globalHideState[section]) {
-                btn.innerHTML = `<i class="fa-solid fa-eye"></i> Show All Answers`;
+                btn.innerHTML = `<i class="fa-solid fa-eye"></i> Show All`;
                 btn.classList.replace('bg-slate-700', 'bg-indigo-600');
             } else {
-                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> Hide All Answers`;
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> Hide All`;
                 btn.classList.replace('bg-indigo-600', 'bg-slate-700');
             }
 
@@ -462,11 +633,10 @@
             if (section === 'cubes') renderCubes();
         }
 
-        // --- FLASHCARD QUIZ MODE ENGINE ---
+        // --- FLASHCARD & QUIZ LOGIC ---
         function buildQuizDeck() {
             quizDeck = [];
 
-            // Add Tables (11 to 29 high yield)
             for (let t = 11; t <= 29; t++) {
                 for (let m = 2; m <= 9; m++) {
                     quizDeck.push({
@@ -474,13 +644,12 @@
                         tag: 'TABLE DRILL',
                         question: `${t} × ${m}`,
                         answer: t * m,
-                        explanation: `Standard multiplication pattern for ${t}`,
+                        explanation: `Multiplication pattern for ${t}`,
                         id: `T${t}-${m}`
                     });
                 }
             }
 
-            // Add Squares (11 to 30)
             for (let s = 11; s <= 30; s++) {
                 quizDeck.push({
                     type: 'squares',
@@ -492,7 +661,6 @@
                 });
             }
 
-            // Add Cubes (2 to 20)
             for (let c = 2; c <= 20; c++) {
                 quizDeck.push({
                     type: 'cubes',
@@ -543,7 +711,7 @@
 
             document.getElementById('quiz-count').innerText = `Card ${currentQuizIndex + 1} of ${deck.length}`;
             
-            const accuracy = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : 100;
+            const accuracy = sessionStats.total > 0 ? Math.round((sessionStats.correct / sessionStats.total) * 100) : 100;
             document.getElementById('quiz-accuracy').innerText = `Accuracy: ${accuracy}%`;
         }
 
@@ -568,11 +736,13 @@
             const deck = getFilteredDeck();
             if (deck.length === 0) return;
 
+            if (!sessionStats.startTime) sessionStats.startTime = new Date();
+
             const card = deck[currentQuizIndex];
-            quizStats.total++;
+            sessionStats.total++;
 
             if (isCorrect) {
-                quizStats.correct++;
+                sessionStats.correct++;
                 masteredSet.add(card.id);
                 reviewSet.delete(card.id);
                 playSuccessSound();
@@ -582,25 +752,106 @@
                 playFailSound();
             }
 
-            saveStats();
+            saveSets();
             updateStatsUI();
 
-            // Next Card Animation
             currentQuizIndex++;
             resetQuizCardState();
         }
 
         function updateStatsUI() {
             document.getElementById('stat-mastered').innerText = masteredSet.size;
-            document.getElementById('stat-review').innerText = reviewSet.size;
+
+            // Calculate Cards Per Minute (CPM)
+            let cpm = 0;
+            if (sessionStats.startTime && sessionStats.total > 0) {
+                const elapsedMinutes = Math.max((new Date() - sessionStats.startTime) / 60000, 0.1);
+                cpm = Math.round(sessionStats.total / elapsedMinutes);
+            }
+            document.getElementById('stat-cpm').innerText = `${cpm}`;
+            document.getElementById('dash-cpm').innerText = `${cpm} CPM`;
         }
 
-        function saveStats() {
+        function saveSets() {
             localStorage.setItem('cgl_mastered', JSON.stringify(Array.from(masteredSet)));
             localStorage.setItem('cgl_review', JSON.stringify(Array.from(reviewSet)));
         }
 
-        // Fisher-Yates Array Shuffle
+        // --- DRILL HISTORY LOGGING ---
+        function logDrillSession() {
+            if (sessionStats.total === 0) return;
+
+            const sessionTimeMins = Math.round((timerDuration - timerTimeLeft) / 60) || 1;
+            const elapsedMins = Math.max((new Date() - (sessionStats.startTime || new Date())) / 60000, 0.1);
+            const cpm = Math.round(sessionStats.total / elapsedMins);
+            const accuracy = Math.round((sessionStats.correct / sessionStats.total) * 100);
+
+            const sessionEntry = {
+                timestamp: new Date().toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                category: quizCategory.toUpperCase(),
+                duration: `${sessionTimeMins}m`,
+                score: `${sessionStats.correct}/${sessionStats.total}`,
+                accuracy: `${accuracy}%`,
+                speed: `${cpm} CPM`
+            };
+
+            drillHistory.unshift(sessionEntry);
+            if (drillHistory.length > 15) drillHistory.pop(); // Keep last 15 drills
+
+            localStorage.setItem('cgl_drill_history', JSON.stringify(drillHistory));
+            renderAnalyticsTable();
+        }
+
+        function renderAnalyticsTable() {
+            const tbody = document.getElementById('history-table-body');
+            tbody.innerHTML = '';
+
+            let totalTodaySolved = 0;
+            let totalTodayCorrect = 0;
+
+            if (drillHistory.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500">No drill sessions logged yet today. Complete a timed quiz to record your scores!</td></tr>`;
+                document.getElementById('dash-today-solved').innerText = "0";
+                document.getElementById('dash-accuracy').innerText = "0%";
+                return;
+            }
+
+            drillHistory.forEach(item => {
+                const [corr, tot] = item.score.split('/').map(Number);
+                totalTodayCorrect += corr;
+                totalTodaySolved += tot;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-800/50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 text-slate-300 font-mono text-[11px]">${item.timestamp}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 text-[10px] bg-indigo-950 text-indigo-300 rounded border border-indigo-800">${item.category}</span></td>
+                    <td class="p-3 font-semibold text-slate-300">${item.duration}</td>
+                    <td class="p-3 font-bold text-slate-200">${item.score}</td>
+                    <td class="p-3 font-bold ${parseInt(item.accuracy) >= 80 ? 'text-emerald-400' : 'text-amber-400'}">${item.accuracy}</td>
+                    <td class="p-3 font-semibold text-cyan-400">${item.speed}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('dash-today-solved').innerText = totalTodaySolved;
+            const overallAcc = totalTodaySolved > 0 ? Math.round((totalTodayCorrect / totalTodaySolved) * 100) : 0;
+            document.getElementById('dash-accuracy').innerText = `${overallAcc}%`;
+        }
+
+        function clearAnalyticsHistory() {
+            if (confirm("Reset all stored drill history and mastered statistics?")) {
+                localStorage.removeItem('cgl_drill_history');
+                localStorage.removeItem('cgl_mastered');
+                localStorage.removeItem('cgl_review');
+                drillHistory = [];
+                masteredSet.clear();
+                reviewSet.clear();
+                updateStatsUI();
+                renderAnalyticsTable();
+            }
+        }
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
