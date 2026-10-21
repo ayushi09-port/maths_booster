@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC CGL Math Calculation Booster & Interactive Flashcards</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons for UI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        /* Custom 3D Card Flip Effects */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        /* Custom Scrollbar for Grid Containers */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid font-bold text-white text-lg fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
+                        SSC CGL Math Booster
+                    </h1>
+                    <p class="text-xs text-slate-400">Master Tables, Squares & Cubes with Spaced Recall</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="flex items-center gap-4 bg-slate-800/80 border border-slate-700/60 px-4 py-2 rounded-xl text-xs sm:text-sm">
+                <div class="text-center">
+                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Mastered</span>
+                    <span id="stat-mastered" class="font-bold text-emerald-400">0</span>
+                </div>
+                <div class="w-px h-6 bg-slate-700"></div>
+                <div class="text-center">
+                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Needs Review</span>
+                    <span id="stat-review" class="font-bold text-amber-400">0</span>
+                </div>
+                <div class="w-px h-6 bg-slate-700"></div>
+                <div class="text-center">
+                    <span class="block text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Streak</span>
+                    <span id="stat-streak" class="font-bold text-indigo-400">1 Day 🔥</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-1">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-6 bg-slate-800/40 p-1.5 rounded-2xl border border-slate-800 backdrop-blur-sm max-w-fit mx-auto">
+            <button onclick="switchTab('tables')" id="nav-tables" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                <i class="fa-solid fa-table-cells"></i> Tables (1-30)
+            </button>
+            <button onclick="switchTab('squares')" id="nav-squares" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-square-root-variable"></i> Squares (1-30)
+            </button>
+            <button onclick="switchTab('cubes')" id="nav-cubes" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-cube"></i> Cubes (1-30)
+            </button>
+            <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800 relative">
+                <i class="fa-solid fa-bolt text-amber-400"></i> Flashcard Quiz Mode
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+            </button>
+        </div>
+
+        <!-- SECTION: TABLES -->
+        <section id="section-tables" class="tab-section space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
+                <div>
+                    <h2 class="text-lg font-bold text-indigo-300">Multiplication Tables Reference</h2>
+                    <p class="text-xs text-slate-400">Select a number to view or toggle hide mode for active recall practice.</p>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button onclick="toggleGlobalHide('tables')" id="btn-toggle-hide-tables" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
+                        <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                    </button>
+                    <select id="tableSelect" onchange="renderTable()" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-indigo-300 font-semibold focus:outline-none focus:border-indigo-500 w-full sm:w-auto cursor-pointer">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </div>
+            <div id="tableGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- SECTION: SQUARES -->
+        <section id="section-squares" class="tab-section hidden space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
+                <div>
+                    <h2 class="text-lg font-bold text-indigo-300">Squares (1 to 30)</h2>
+                    <p class="text-xs text-slate-400">Click any card to reveal its value or test your quick recall.</p>
+                </div>
+                <button onclick="toggleGlobalHide('squares')" id="btn-toggle-hide-squares" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                </button>
+            </div>
+            <div id="squaresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- SECTION: CUBES -->
+        <section id="section-cubes" class="tab-section hidden space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
+                <div>
+                    <h2 class="text-lg font-bold text-indigo-300">Cubes (1 to 30)</h2>
+                    <p class="text-xs text-slate-400">Crucial for Compound Interest and volume calculations in Mensuration.</p>
+                </div>
+                <button onclick="toggleGlobalHide('cubes')" id="btn-toggle-hide-cubes" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-xl border border-slate-600 transition flex items-center gap-2">
+                    <i class="fa-solid fa-eye-slash"></i> Hide All Answers
+                </button>
+            </div>
+            <div id="cubesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- SECTION: FLASHCARD QUIZ MODE -->
+        <section id="section-quiz" class="tab-section hidden space-y-6">
+            <!-- Quiz Filter & Controls Header -->
+            <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+                <div>
+                    <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-fire"></i> Interactive Flashcard Drill
+                    </h2>
+                    <p class="text-xs text-slate-400">Active recall mode with spaced repetition self-assessment.</p>
+                </div>
+
+                <!-- Quiz Category Filter -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="setQuizCategory('all')" id="qcat-all" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">All Mixed</button>
+                    <button onclick="setQuizCategory('tables')" id="qcat-tables" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Tables Only</button>
+                    <button onclick="setQuizCategory('squares')" id="qcat-squares" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Squares Only</button>
+                    <button onclick="setQuizCategory('cubes')" id="qcat-cubes" class="quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition">Cubes Only</button>
+                </div>
+            </div>
+
+            <!-- Main Interactive Flashcard Container -->
+            <div class="flex flex-col items-center justify-center max-w-lg mx-auto py-4">
+                
+                <!-- Progress Indicator -->
+                <div class="w-full flex justify-between items-center text-xs text-slate-400 mb-2 px-2">
+                    <span id="quiz-count">Card 1 of 50</span>
+                    <span id="quiz-accuracy" class="text-indigo-400 font-semibold">Accuracy: 100%</span>
+                </div>
+
+                <!-- 3D Flip Card -->
+                <div class="w-full h-64 perspective-1000 cursor-pointer group" onclick="flipQuizCard()">
+                    <div id="quiz-card-inner" class="relative w-full h-full duration-500 transform-style-3d shadow-2xl rounded-3xl border border-slate-700/80 bg-slate-800">
+                        
+                        <!-- Front of Card (Question) -->
+                        <div class="absolute inset-0 w-full h-full rounded-3xl backface-hidden bg-gradient-to-br from-slate-800 via-slate-800/90 to-slate-900 border border-slate-700 flex flex-col items-center justify-between p-6">
+                            <span id="quiz-tag" class="text-[10px] font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-3 py-1 rounded-full border border-indigo-800/50 uppercase">TABLE DRILL</span>
+                            
+                            <div class="text-center my-auto">
+                                <div id="quiz-question" class="text-4xl sm:text-5xl font-extrabold text-white tracking-wide">19 × 7</div>
+                                <p class="text-xs text-slate-400 mt-3 flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-rotate-left"></i> Click or press <kbd class="px-1.5 py-0.5 text-[10px] bg-slate-700 rounded text-slate-300 border border-slate-600">Space</kbd> to flip answer
+                                </p>
+                            </div>
+
+                            <div class="text-[11px] text-slate-500">Card ID: <span id="quiz-card-id">#001</span></div>
+                        </div>
+
+                        <!-- Back of Card (Answer) -->
+                        <div class="absolute inset-0 w-full h-full rounded-3xl backface-hidden rotate-y-180 bg-gradient-to-br from-slate-800 via-indigo-950/40 to-slate-900 border border-indigo-500/50 flex flex-col items-center justify-between p-6">
+                            <span class="text-[10px] font-bold tracking-wider text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800/50 uppercase">ANSWER</span>
+                            
+                            <div class="text-center my-auto">
+                                <div id="quiz-answer" class="text-5xl sm:text-6xl font-extrabold text-emerald-400 tracking-wide">133</div>
+                                <div id="quiz-explanation" class="text-xs text-slate-300 mt-2 italic font-mono bg-slate-900/60 px-3 py-1 rounded-lg border border-slate-800">
+                                    Standard Table Recall
+                                </div>
+                            </div>
+
+                            <div class="text-[11px] text-slate-400">Rate your recall strength below</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Self-Assessment Rating Buttons -->
+                <div class="w-full grid grid-cols-2 gap-3 mt-6">
+                    <button onclick="gradeQuizCard(false)" class="py-3.5 px-4 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-2xl font-semibold text-sm transition flex items-center justify-center gap-2 group">
+                        <i class="fa-solid fa-xmark text-rose-400 group-hover:scale-125 transition-transform"></i> Review Again
+                    </button>
+                    <button onclick="gradeQuizCard(true)" class="py-3.5 px-4 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-2xl font-semibold text-sm transition flex items-center justify-center gap-2 group">
+                        <i class="fa-solid fa-check text-emerald-400 group-hover:scale-125 transition-transform"></i> Got It Cleanly!
+                    </button>
+                </div>
+
+                <!-- Shortcut Legend -->
+                <p class="text-[11px] text-slate-500 mt-4 text-center">
+                    Keyboard Shortcuts: <kbd class="px-1 bg-slate-800 rounded">Space</kbd> Flip | <kbd class="px-1 bg-slate-800 rounded">←</kbd> Review | <kbd class="px-1 bg-slate-800 rounded">→</kbd> Got It
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500">
+        SSC CGL Daily Math Booster • Practice 5 Minutes Every Morning
+    </footer>
+
+    <!-- Audio Effects (Web Audio API Synthesizer) -->
+    <script>
+        // Audio Synthesizer for visual/audio feedback without external assets
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playTone(freq, type = 'sine', duration = 0.15) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // Ignore audio restriction errors
+            }
+        }
+
+        function playSuccessSound() {
+            playTone(523.25, 'triangle', 0.1); // C5
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100); // E5
+        }
+
+        function playFailSound() {
+            playTone(220, 'sawtooth', 0.2); // A3
+        }
+
+        function playFlipSound() {
+            playTone(400, 'sine', 0.05);
+        }
+    </script>
+
+    <!-- Core Logic & Application State -->
+    <script>
+        // State Management
+        let currentTab = 'tables';
+        let globalHideState = { tables: false, squares: false, cubes: false };
+        let masteredSet = new Set(JSON.parse(localStorage.getItem('cgl_mastered') || '[]'));
+        let reviewSet = new Set(JSON.parse(localStorage.getItem('cgl_review') || '[]'));
+
+        // Quiz State
+        let quizCategory = 'all';
+        let quizDeck = [];
+        let currentQuizIndex = 0;
+        let isCardFlipped = false;
+        let quizStats = { correct: 0, total: 0 };
+
+        // Initialize App on DOM Ready
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTableDropdown();
+            renderTable();
+            renderSquares();
+            renderCubes();
+            updateStatsUI();
+            buildQuizDeck();
+            
+            // Setup Keyboard Shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (currentTab !== 'quiz') return;
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipQuizCard();
+                } else if (e.code === 'ArrowLeft') {
+                    e.preventDefault();
+                    gradeQuizCard(false);
+                } else if (e.code === 'ArrowRight') {
+                    e.preventDefault();
+                    gradeQuizCard(true);
+                }
+            });
+        });
+
+        // Tab Switcher
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800";
+            });
+
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tab}`);
+            activeBtn.className = "nav-btn px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+
+            if (tab === 'quiz') {
+                resetQuizCardState();
+            }
+        }
+
+        // --- TABLES LOGIC ---
+        function populateTableDropdown() {
+            const select = document.getElementById('tableSelect');
+            select.innerHTML = '';
+            for (let i = 1; i <= 30; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerHTML = `Table of ${i}`;
+                if (i === 19) opt.selected = true; // Default to 19 (High yield for CGL)
+                select.appendChild(opt);
+            }
+        }
+
+        function renderTable() {
+            const num = parseInt(document.getElementById('tableSelect').value);
+            const container = document.getElementById('tableGrid');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 10; i++) {
+                const ans = num * i;
+                const isHidden = globalHideState.tables;
+                const cardId = `tbl-${num}-${i}`;
+                
+                const card = document.createElement('div');
+                card.className = "bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/80 flex justify-between items-center cursor-pointer hover:border-indigo-500 transition group select-none";
+                card.onclick = () => toggleSingleAnswer(cardId);
+
+                card.innerHTML = `
+                    <span class="text-sm font-medium text-slate-300">${num} × ${i}</span>
+                    <span id="${cardId}" class="font-extrabold text-base ${isHidden ? 'bg-slate-700 text-transparent rounded px-2 select-none' : 'text-indigo-400'} transition-all">
+                        ${ans}
+                    </span>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // --- SQUARES LOGIC ---
+        function renderSquares() {
+            const container = document.getElementById('squaresGrid');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 30; i++) {
+                const ans = i * i;
+                const isHidden = globalHideState.squares;
+                const cardId = `sq-${i}`;
+
+                const card = document.createElement('div');
+                card.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700/80 text-center cursor-pointer hover:border-indigo-500 transition select-none group flex flex-col justify-between h-20";
+                card.onclick = () => toggleSingleAnswer(cardId);
+
+                card.innerHTML = `
+                    <div class="text-[11px] font-semibold text-slate-400 group-hover:text-indigo-300">${i}²</div>
+                    <div id="${cardId}" class="font-extrabold text-lg ${isHidden ? 'bg-slate-700 text-transparent rounded py-0.5 mx-2 select-none' : 'text-indigo-400'} transition-all">
+                        ${ans}
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // --- CUBES LOGIC ---
+        function renderCubes() {
+            const container = document.getElementById('cubesGrid');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 30; i++) {
+                const ans = i * i * i;
+                const isHidden = globalHideState.cubes;
+                const cardId = `cube-${i}`;
+
+                const card = document.createElement('div');
+                card.className = "bg-slate-800/80 p-3 rounded-xl border border-slate-700/80 text-center cursor-pointer hover:border-indigo-500 transition select-none group flex flex-col justify-between h-20";
+                card.onclick = () => toggleSingleAnswer(cardId);
+
+                card.innerHTML = `
+                    <div class="text-[11px] font-semibold text-slate-400 group-hover:text-indigo-300">${i}³</div>
+                    <div id="${cardId}" class="font-extrabold text-base ${isHidden ? 'bg-slate-700 text-transparent rounded py-0.5 mx-2 select-none' : 'text-indigo-400'} transition-all">
+                        ${ans}
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // Toggle visibility of individual answer
+        function toggleSingleAnswer(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            playFlipSound();
+            if (el.classList.contains('text-transparent')) {
+                el.classList.remove('text-transparent', 'bg-slate-700', 'px-2', 'py-0.5', 'mx-2');
+                el.classList.add('text-indigo-400');
+            } else {
+                el.classList.add('text-transparent', 'bg-slate-700', 'px-2', 'py-0.5', 'mx-2');
+                el.classList.remove('text-indigo-400');
+            }
+        }
+
+        // Global Hide/Show All Toggle
+        function toggleGlobalHide(section) {
+            globalHideState[section] = !globalHideState[section];
+            const btn = document.getElementById(`btn-toggle-hide-${section}`);
+            
+            if (globalHideState[section]) {
+                btn.innerHTML = `<i class="fa-solid fa-eye"></i> Show All Answers`;
+                btn.classList.replace('bg-slate-700', 'bg-indigo-600');
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> Hide All Answers`;
+                btn.classList.replace('bg-indigo-600', 'bg-slate-700');
+            }
+
+            if (section === 'tables') renderTable();
+            if (section === 'squares') renderSquares();
+            if (section === 'cubes') renderCubes();
+        }
+
+        // --- FLASHCARD QUIZ MODE ENGINE ---
+        function buildQuizDeck() {
+            quizDeck = [];
+
+            // Add Tables (11 to 29 high yield)
+            for (let t = 11; t <= 29; t++) {
+                for (let m = 2; m <= 9; m++) {
+                    quizDeck.push({
+                        type: 'tables',
+                        tag: 'TABLE DRILL',
+                        question: `${t} × ${m}`,
+                        answer: t * m,
+                        explanation: `Standard multiplication pattern for ${t}`,
+                        id: `T${t}-${m}`
+                    });
+                }
+            }
+
+            // Add Squares (11 to 30)
+            for (let s = 11; s <= 30; s++) {
+                quizDeck.push({
+                    type: 'squares',
+                    tag: 'SQUARE RECALL',
+                    question: `${s}²`,
+                    answer: s * s,
+                    explanation: `${s} × ${s} = ${s * s}`,
+                    id: `S${s}`
+                });
+            }
+
+            // Add Cubes (2 to 20)
+            for (let c = 2; c <= 20; c++) {
+                quizDeck.push({
+                    type: 'cubes',
+                    tag: 'CUBE RECALL',
+                    question: `${c}³`,
+                    answer: c * c * c,
+                    explanation: `${c} × ${c} × ${c} = ${c * c * c}`,
+                    id: `C${c}`
+                });
+            }
+
+            shuffleArray(quizDeck);
+            currentQuizIndex = 0;
+            loadCurrentQuizCard();
+        }
+
+        function setQuizCategory(cat) {
+            quizCategory = cat;
+            document.querySelectorAll('.quiz-cat-btn').forEach(btn => {
+                btn.className = "quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition";
+            });
+            document.getElementById(`qcat-${cat}`).className = "quiz-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition";
+            
+            buildQuizDeck();
+            resetQuizCardState();
+        }
+
+        function getFilteredDeck() {
+            if (quizCategory === 'all') return quizDeck;
+            return quizDeck.filter(card => card.type === quizCategory);
+        }
+
+        function loadCurrentQuizCard() {
+            const deck = getFilteredDeck();
+            if (deck.length === 0) return;
+
+            if (currentQuizIndex >= deck.length) {
+                currentQuizIndex = 0;
+                shuffleArray(deck);
+            }
+
+            const card = deck[currentQuizIndex];
+            document.getElementById('quiz-tag').innerText = card.tag;
+            document.getElementById('quiz-question').innerText = card.question;
+            document.getElementById('quiz-answer').innerText = card.answer;
+            document.getElementById('quiz-explanation').innerText = card.explanation;
+            document.getElementById('quiz-card-id').innerText = card.id;
+
+            document.getElementById('quiz-count').innerText = `Card ${currentQuizIndex + 1} of ${deck.length}`;
+            
+            const accuracy = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : 100;
+            document.getElementById('quiz-accuracy').innerText = `Accuracy: ${accuracy}%`;
+        }
+
+        function flipQuizCard() {
+            const inner = document.getElementById('quiz-card-inner');
+            isCardFlipped = !isCardFlipped;
+            playFlipSound();
+            if (isCardFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function resetQuizCardState() {
+            isCardFlipped = false;
+            document.getElementById('quiz-card-inner').classList.remove('rotate-y-180');
+            loadCurrentQuizCard();
+        }
+
+        function gradeQuizCard(isCorrect) {
+            const deck = getFilteredDeck();
+            if (deck.length === 0) return;
+
+            const card = deck[currentQuizIndex];
+            quizStats.total++;
+
+            if (isCorrect) {
+                quizStats.correct++;
+                masteredSet.add(card.id);
+                reviewSet.delete(card.id);
+                playSuccessSound();
+            } else {
+                reviewSet.add(card.id);
+                masteredSet.delete(card.id);
+                playFailSound();
+            }
+
+            saveStats();
+            updateStatsUI();
+
+            // Next Card Animation
+            currentQuizIndex++;
+            resetQuizCardState();
+        }
+
+        function updateStatsUI() {
+            document.getElementById('stat-mastered').innerText = masteredSet.size;
+            document.getElementById('stat-review').innerText = reviewSet.size;
+        }
+
+        function saveStats() {
+            localStorage.setItem('cgl_mastered', JSON.stringify(Array.from(masteredSet)));
+            localStorage.setItem('cgl_review', JSON.stringify(Array.from(reviewSet)));
+        }
+
+        // Fisher-Yates Array Shuffle
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    </script>
+</body>
+</html>
